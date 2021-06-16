@@ -138,11 +138,11 @@ class ComicController extends Controller
 
     private function getValidationRules() {
         $validation = [
-            'name' => 'required|min:2|max:50',
+            'name' => 'required|min:2|max:150',
             'editor' => 'required|max:20',
             'image' => 'required|max:255',
             'genre' => 'required|max:50',
-            'price' => 'required',
+            'price' => 'required|between:0,99.99',
         ];
 
         return $validation;
