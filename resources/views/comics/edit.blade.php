@@ -6,6 +6,18 @@
 
         <h2>Nome prodotto: {{$comic->name}}</h2>
 
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        {{-- edit form --}}
+
         <form action="{{route('comics.update', ['comic'=>$comic->id]) }}" method="post">
             @csrf
             @method('PUT')
@@ -46,7 +58,7 @@
             <input type="submit" value="Modifica prodotto">
         </form>
 
-        {{-- end create form --}}
+        {{-- end edit form --}}
 
         </div>
     </div>

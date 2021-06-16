@@ -44,13 +44,8 @@ class ComicController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            'name' => 'required|min:2|max:50',
-            'editor' => 'required|max:20',
-            'image' => 'required|max:255',
-            'genre' => 'required|max:50',
-            'price' => 'required',
-        ]);
+        //richiamo la funzione per la validazione del form
+        $request->validate($this->getValidationRules() );
 
 
         $form_data = $request->all();
@@ -59,6 +54,7 @@ class ComicController extends Controller
         $comic->fill($form_data);
         $comic->save();
 
+        //redirect alla pagina del dettaglio
         return redirect()->route('comics.show', [
             'comic' => $comic->id
         ]);
@@ -108,7 +104,18 @@ class ComicController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //richiamo la funzione per la validazione del form
+        $request->validate($this->getValidationRules() );
+
+        $form_data = $request->all();
+
+        $comic_to_modify = Comic::find($id);
+        $comic_to_modify->update($form_data);
+
+        //redirect alla pagina del dettaglio
+        return redirect()->route('comics.show', [
+            'comic' => $comic_to_modify->id
+        ]);
     }
 
     /**
@@ -119,6 +126,25 @@ class ComicController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comic_to_delete = Comic::find($id);
+
+        $comic_to_delete->delete();
+
+        return redirect()->route('comics.index');
+
+    }
+
+
+
+    private function getValidationRules() {
+        $validation = [
+            'name' => 'required|min:2|max:50',
+            'editor' => 'required|max:20',
+            'image' => 'required|max:255',
+            'genre' => 'required|max:50',
+            'price' => 'required',
+        ];
+
+        return $validation;
     }
 }

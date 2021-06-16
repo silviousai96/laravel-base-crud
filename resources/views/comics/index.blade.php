@@ -15,7 +15,7 @@
                         <div class="card-body">
 
                         <h5 class="card-title">{{$comic->name}}</h5>
-                        
+
                         <p class="card-text">{{$comic->editor}}</p>
 
                         <a href="{{ route('comics.show', [
@@ -29,6 +29,13 @@
                         ]) }}" class="btn btn-secondary">
                           Modifica prodotto
                         </a>
+
+                        <form action="{{ route('comics.destroy', ['comic' => $comic->id]) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+
+                            <input type="submit" value="Cancella" class="btn btn-danger"> 
+                        </form>
 
                         </div>
                     </div>
